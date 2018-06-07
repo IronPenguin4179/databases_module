@@ -1,0 +1,33 @@
+1.)string,integer,date,float,float
+
+2.)Databases should be used if there's a chance that data will be altered by more than one source at a time. A text file 
+   being altered this would could cause a failure to make the changes.
+
+3.)SQL is a declarative language. Rather than telling it how to find things, we can just tell it to find them and it will.
+
+4.)Databases organize data with tables made up of rows and columns which are filled with relevant values.
+
+5.)Table is an organizational method for data.
+   Columns represent data of a certain type such as all of the amounts or all of the titles.
+   Rows represent all of the related data such as the title, author, and publisher of the book.
+   Values are the info in each cell within the table. The row and column represent the x,y coordinates in the table and
+     the value is what is found and that coordinate.
+    
+6.)String,date,integer
+
+7.)All the date and amount info from the payments database 
+   All of the amount data from the payments database where the amount is greater than 500
+   All of the data from payments where the payee is "Mega Foods."
+
+8.)
+a.)SELECT email, signup
+   FROM users
+   WHERE name = "DeAndre Data";
+
+b.)SELECT userid
+   FROM users
+   WHERE email = "aleesia.algorithm@uw.edu";
+  
+c.)SELECT *
+   FROM users
+   WHERE userid = 4;
