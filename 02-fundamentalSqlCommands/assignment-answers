@@ -1,0 +1,68 @@
+1.) INSERT INTO database-name (values);
+    UPDATE database-name SET value=blah;
+    DELETE FROM database-name WHERE value=blah;
+
+2.) See 1
+
+3.) Decimal: percentages 
+    Character: Letter grades
+    Timestamp: Email timestamps
+
+4.)  
+name | rsvp | guests | card | numbertable
+------+------+--------+------+-------------
+
+
+5.)    
+ isbn  |      title       |       author       |  genre  | publishdate | totalcopies | availablecopies
+-------+------------------+--------------------+---------+-------------+-------------+-----------------
+     1 | Title 1          | Author 1           | Genre 1 | 1994-05-19  |           1 |               0
+ 97807 | The Way of Kings | Brandon Sanderson  | Fantasy | 2011-06-01  |          10 |               2
+ 97803 | Blood of Elves   | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               7
+
+ isbn  |     title      |       author       |  genre  | publishdate | totalcopies | availablecopies
+-------+----------------+--------------------+---------+-------------+-------------+-----------------
+ 97803 | Blood of Elves | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               6
+
+ isbn  |      title       |       author       |  genre  | publishdate | totalcopies | availablecopies
+-------+------------------+--------------------+---------+-------------+-------------+-----------------
+ 97807 | The Way of Kings | Brandon Sanderson  | Fantasy | 2011-06-01  |          10 |               2
+ 97803 | Blood of Elves   | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               6
+
+
+6.)
+
+ id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
+  1 | Sputnik    | 1980-01-01 | USSR          | To be cooler than USA     | Not Earth    | f                  |         123456
+  2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
+  3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | t                  |         345678  
+
+ id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
+  2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
+  3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | t                  |         345678
+
+ id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
+  2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
+  3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | f                  |         345678
+
+
+7.)
+ id |    subject     |    sender     |   recipients    |                          body                           |        time         | read | emailchainid
+----+----------------+---------------+-----------------+---------------------------------------------------------+---------------------+------+--------------
+  1 | L1fe adv1ce    | InternetTroll | All of internet | U lame.                                                 | 2010-03-22 06:03:33 | t    |         1111
+  2 | Facebook alert | Mark Zucks    | Everyone        | Soooo, I sold all your data... Can we still be friends? | 2018-03-22 00:00:00 | f    |          666
+  3 | The truth!     | D.Trump       | Media           | Fake news.                                              | 2016-08-04 04:03:22 | t    |         1776
+
+ id |   subject   |    sender     |   recipients    |    body    |        time         | read | emailchainid
+----+-------------+---------------+-----------------+------------+---------------------+------+--------------
+  1 | L1fe adv1ce | InternetTroll | All of internet | U lame.    | 2010-03-22 06:03:33 | t    |         1111
+  3 | The truth!  | D.Trump       | Media           | Fake news. | 2016-08-04 04:03:22 | t    |         1776
+
+   id |   subject   |    sender     |   recipients    |    body    |        time         | read | emailchainid
+----+-------------+---------------+-----------------+------------+---------------------+------+--------------
+  1 | L1fe adv1ce | InternetTroll | All of internet | U lame.    | 2010-03-22 06:03:33 | t    |         1111
+  3 | The truth!  | D.Trump       | Media           | Fake news. | 2016-08-04 04:03:22 | f    |         1776
+
