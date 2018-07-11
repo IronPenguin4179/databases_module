@@ -1,0 +1,45 @@
+1.) SELECT * FROM collection WHERE title LIKE '%cool%';
+
+2.) She fancies lemurs.
+
+3.) SELECT name, gender, age
+    FROM dogs
+    WHERE breed
+    LIKE '%Labrador%';
+
+    SELECT id
+    FROM dogs
+    WHERE age<1;
+
+    SELECT name, age
+    FROM dogs
+    WHERE gender=female 
+    AND weight>35;
+
+    SELECT *
+    FROM dogs
+    WHERE name NOT LIKE '%Shephard%';
+
+    SELECT id, age, weight, breed
+    FROM dogs
+    WHERE weight>60 OR breed LIKE '%Great Dane%';
+
+4.) 
+
+5.)
+
+6.) a = b
+    x < 6
+    integer > 10
+    price >= 30
+    age <= 60
+    name != 'Walk simply into Mordor'
+    name LIKE '%Terminator%'
+    temp BETWEEN low AND hi
+    some_numbers IS DISTINCT FROM some_other_numbers
+    fake_news IS FALSE
+    brain_power IS NULL
+    genre = 'Horror' AND rating>3 OR director='John Carpenter' NOT LIKE '%Scary Movie%'
+
+
+7.)
