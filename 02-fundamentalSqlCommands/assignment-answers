@@ -9,47 +9,115 @@
     Timestamp: Email timestamps
 
 4.)  
-name | rsvp | guests | card | numbertable
-------+------+--------+------+-------------
+CREATE TABLE wedding(
+  name text,
+  rsvp boolean,
+  guests integer,
+  meals decimal);
+
+UPDATE TABLE wedding ADD COLUMN card boolean;
+
+ALTER TABLE wedding DROP COLUMN meals;
+
+ALTER TABLE wedding ADD COLUMN designatedTable;
+
+DELETE TABLE wedding;
 
 
-5.)    
- isbn  |      title       |       author       |  genre  | publishdate | totalcopies | availablecopies
--------+------------------+--------------------+---------+-------------+-------------+-----------------
-     1 | Title 1          | Author 1           | Genre 1 | 1994-05-19  |           1 |               0
- 97807 | The Way of Kings | Brandon Sanderson  | Fantasy | 2011-06-01  |          10 |               2
- 97803 | Blood of Elves   | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               7
+5.) 
+  CREATE TABLE books (
+    isbn text, 
+    title text, 
+    author text, 
+    genre text, 
+    published integer, 
+    totalcopies integer, 
+    availablecopies integer);
 
- isbn  |     title      |       author       |  genre  | publishdate | totalcopies | availablecopies
--------+----------------+--------------------+---------+-------------+-------------+-----------------
- 97803 | Blood of Elves | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               6
+INSERT INTO books VALUES
+('1-1-1-1-1','Title 1','Author 1', 'Genre 1', 1994,1,0),
+('978-0-7653-6527-9', 'The Way of Kings','Brandon Sanderson','Fantasy',2011,10,2),
+('978-0-316-02919-3', 'Blood of Elves', 'Andrzej Sapakowski', 'Fantasy',2009,7,7);
 
- isbn  |      title       |       author       |  genre  | publishdate | totalcopies | availablecopies
--------+------------------+--------------------+---------+-------------+-------------+-----------------
- 97807 | The Way of Kings | Brandon Sanderson  | Fantasy | 2011-06-01  |          10 |               2
- 97803 | Blood of Elves   | Andrzej Sapakowski | Fantasy | 2009-05-01  |           7 |               6
+UPDATE books SET availablecopies=6 WHERE title='Blood of Elves';
 
+DELETE FROM books WHERE title='Title 1';
+
+       isbn        |      title       |       author       |  genre  | published | totalcopies | availablecopies
+-------------------+------------------+--------------------+---------+-----------+-------------+-----------------
+ 1-1-1-1-1         | Title 1          | Author 1           | Genre 1 |      1994 |           1 |               0
+ 978-0-7653-6527-9 | The Way of Kings | Brandon Sanderson  | Fantasy |      2011 |          10 |               2
+ 978-0-316-02919-3 | Blood of Elves   | Andrzej Sapakowski | Fantasy |      2009 |           7 |               7
+
+       isbn        |      title       |       author       |  genre  | published | totalcopies | availablecopies
+-------------------+------------------+--------------------+---------+-----------+-------------+-----------------
+ 1-1-1-1-1         | Title 1          | Author 1           | Genre 1 |      1994 |           1 |               0
+ 978-0-7653-6527-9 | The Way of Kings | Brandon Sanderson  | Fantasy |      2011 |          10 |               2
+ 978-0-316-02919-3 | Blood of Elves   | Andrzej Sapakowski | Fantasy |      2009 |           7 |               6
+
+        isbn        |      title       |       author       |  genre  | published | totalcopies | availablecopies
+-------------------+------------------+--------------------+---------+-----------+-------------+-----------------
+ 978-0-7653-6527-9 | The Way of Kings | Brandon Sanderson  | Fantasy |      2011 |          10 |               2
+ 978-0-316-02919-3 | Blood of Elves   | Andrzej Sapakowski | Fantasy |      2009 |           7 |               7
 
 6.)
+CREATE TABLE spacecrafts (
+  id integer,
+  name text,
+  launchyear integer,
+  origin text,
+  missiondescription text,
+  orbitingbody text,
+  currentlyoperating boolean,
+  milesfromearth integer
+);
 
- id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+INSERT INTO spacecrafts VALUES
+(1,'Sputnik',1980,'USSR','To be cooler than USA','Not Earth','false',123456),
+(2,'SuperSpace',1990,'USA','Actually better than USSR','Saturn','true',456789),
+(3,'Freedom',2020,'Elon Musk HQ','Test car satellite','Mars','true',345678);
+
+DELETE FROM spacecrafts WHERE id=1;
+
+UPDATE spacecrafts SET currentlyoperating='false' WHERE id=3;
+ id |    name    | launchyear |     origin    |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
 ----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
   1 | Sputnik    | 1980-01-01 | USSR          | To be cooler than USA     | Not Earth    | f                  |         123456
   2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
   3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | t                  |         345678  
 
- id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+ id |    name    | launchyear |     origin    |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
 ----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
   2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
   3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | t                  |         345678
 
- id |    name    | launchyear | origincountry |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
+ id |    name    | launchyear |     origin    |    missiondescription     | orbitingbody | currentlyoperating | milesfromearth
 ----+------------+------------+---------------+---------------------------+--------------+--------------------+----------------
   2 | SuperSpace | 1990-01-01 | USA           | Actually better than USSR | Saturn       | t                  |         456789
   3 | Freedom    | 2020-01-01 | Elon Musk HQ  | Test car satellite        | Mars         | f                  |         345678
 
 
 7.)
+
+CREATE TABLE email (
+  id integer,
+  subject text,
+  sender text,
+  recipients text,
+  body text,
+  time timestamp,
+  read boolean,
+  emailchainid integer);
+
+INSERT INTO email VALUES
+(1,'L1fe adv1ce','InternetTroll','All of internet','U lame.','2010-03-22 06:03:33','true',1111),
+(2,'Facebook alert','Mark Zucks','Everyone','Soooo, I sold all your data... Can we still be friends?','2018-03-22 00:00:00','false',666),
+(3,'The truth!','D.Trump','Media','Fake news.','2016-08-04 04:03:22','true',1776);
+
+DELETE FROM email WHERE id=2;
+
+UPDATE email SET read='false' WHERE id=3;
+
  id |    subject     |    sender     |   recipients    |                          body                           |        time         | read | emailchainid
 ----+----------------+---------------+-----------------+---------------------------------------------------------+---------------------+------+--------------
   1 | L1fe adv1ce    | InternetTroll | All of internet | U lame.                                                 | 2010-03-22 06:03:33 | t    |         1111
