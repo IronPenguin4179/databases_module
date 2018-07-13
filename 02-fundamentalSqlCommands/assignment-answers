@@ -15,13 +15,13 @@ CREATE TABLE wedding(
   guests integer,
   meals decimal);
 
-UPDATE TABLE wedding ADD COLUMN card boolean;
+ALTER TABLE wedding ADD COLUMN card boolean;
 
 ALTER TABLE wedding DROP COLUMN meals;
 
-ALTER TABLE wedding ADD COLUMN designatedTable;
+ALTER TABLE wedding ADD COLUMN designatedTable integer;
 
-DELETE TABLE wedding;
+DROP TABLE wedding;
 
 
 5.) 
