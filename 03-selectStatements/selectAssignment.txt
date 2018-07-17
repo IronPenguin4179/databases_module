@@ -24,9 +24,41 @@
     FROM dogs
     WHERE weight>60 OR breed LIKE '%Great Dane%';
 
-4.) 
+4.) name	adoption_date
+    Mushi	2016-03-22
+    Seashell	(null)
+    Azul	2016-04-17
+    Victoire	2016-09-01
+    Nala	(null)
+
+    name	age
+    Mushi	1
+    Seashell	7
+    Azul	3
+    Victoire	7
+    Nala	1
 
 5.)
+SELECT * FROM cats;
+id	name	gender	age	intake_date	adoption_date
+1	Mushi	M	1	2016-01-09	2016-03-22
+2	Seashell	F	7	2016-01-09	(null)
+3	Azul	M	3	2016-01-11	2016-04-17
+4	Victoire	M	7	2016-01-11	2016-09-01
+5	Nala	F	1	2016-01-12	(null)
+
+SELECT name, gender FROM cats WHERE age = 7;
+name	gender
+Seashell	F
+Victoire	M
+
+SELECT name FROM cats;
+name
+Mushi
+Seashell
+Azul
+Victoire
+Nala
 
 6.) a = b
     x < 6
@@ -41,5 +73,17 @@
     brain_power IS NULL
     genre = 'Horror' AND rating>3 OR director='John Carpenter' NOT LIKE '%Scary Movie%'
 
-
 7.)
+name
+Seashell
+Nala
+
+name
+Mushi
+Seashell
+Victoire
+Nala
+
+id
+3
+4
