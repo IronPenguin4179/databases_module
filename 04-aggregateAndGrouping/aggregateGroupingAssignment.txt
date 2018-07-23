@@ -1,0 +1,130 @@
+1.) SUM adds up the values given to it. SUM would be ideal for a cash register to total a customers cost.
+    MAX returns the highest value. MAX could be used to determine the highest score in a game.
+    MIN returns the lowest value. MIN would work for a race to show the fastest time.
+    COUNT shows the number of rows. COUNT could be used to find out how many movies are showing at the theater.
+    AVG calculates the average value. AVG works well for averaging grades for a class.
+
+2.)
+SELECT SUM(amount) FROM donations;
+993
+
+SELECT donor, SUM(amount) AS sum_donations
+FROM donations
+GROUP BY donor;
+donor	sum_donations
+Arya	60
+Bran	25
+Brienne	75
+Bronn	20
+Daario	10
+Daenerys	173
+Gilly	7
+Jon	25
+Margaery	120
+Melisandre	45
+Missandei	90
+Petyr	70
+Samwell	20
+Sansa	33
+Theon	20
+Tormund	50
+Tyrion	120
+Ygritte	30
+
+SELECT donor, AVG(amount) AS avg_donations
+FROM donations
+GROUP BY donor;
+donor	avg_donations
+Arya	20
+Bran	25
+Brienne	75
+Bronn	20
+Daario	10
+Daenerys	86.5
+Gilly	7
+Jon	25
+Margaery	120
+Melisandre	45
+Missandei	22.5
+Petyr	70
+Samwell	20
+Sansa	33
+Theon	10
+Tormund	50
+Tyrion	40
+Ygritte	30
+
+SELECT COUNT(amount > 100) 
+FROM donations;
+27
+
+SELECT MAX(amount) 
+FROM donations;
+120
+
+SELECT MIN(amount) 
+FROM donations;
+5
+
+3.) I would use ORDER_BY
+
+4.) In NASCAR they can only show the placement of so many cars at once. They'll show the ten in first, then the next ten and so on.
+OFFSET would be perfect for showing the second ten and each subsequent ten by increasing the offset.
+
+5.)It is important to use order by to ensure the that top several results you're trying to obtain are top for an actual reason and aren't 
+just arbitrarily at the top because it's ordered by another factor. Once ordered then when it grabs the top few, you're certain they're 
+the ones you were looking for.
+
+6.)HAVING filters after aggregations, WHERE filters before.
+
+7.)
+SELECT id, SUM (amount)
+FROM payment
+GROUP BY id
+HAVING SUM (amount) > 200;
+
+8.)
+SELECT * FROM cats ORDER BY adoption_date;
+id	name	gender	age	intake_date	adoption_date
+2	Seashell	F	7	2016-01-09	(null)
+5	Nala	F	1	2016-01-12	(null)
+1	Mushi	M	1	2016-01-09	2016-03-22
+3	Azul	M	3	2016-01-11	2016-04-17
+4	Victoire	M	7	2016-01-11	2016-09-01
+
+SELECT cat, date FROM adoptions ORDER BY date DESC LIMIT 5;
+cat	date
+Crookshanks	1993-08-31
+Mr. Tibbles	1990-02-18
+Mr. Paws	1990-02-18
+Snowy	1989-11-29
+Tufty	1988-05-03
+
+SELECT * FROM cats WHERE gender = 'F' AND age >= 2;
+id	name	gender	age	intake_date	adoption_date
+2	Seashell	F	7	2016-01-09	(null)
+
+SELECT donor AS Platinum_Donors, SUM(amount) AS Total_Donation 
+FROM donations
+GROUP BY donor
+ORDER BY SUM(amount) DESC
+LIMIT 5;
+Platinum_Donors	Total_Donation
+Daenerys	173
+Tyrion	120
+Margaery	120
+Missandei	90
+Brienne	75
+
+SELECT donor AS Gold_Donors, SUM(amount) AS Total_Donation 
+FROM donations
+GROUP BY donor
+ORDER BY SUM(amount) DESC
+LIMIT 5 OFFSET 5;
+Gold_Donors	Total_Donation
+Petyr	70
+Arya	60
+Tormund	50
+Melisandre	45
+Sansa	33
+
