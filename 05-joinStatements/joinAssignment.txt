@@ -175,8 +175,8 @@ WHERE d.name = 'Rosco';
 
 "Argus"
 
-9.)
-SELECT p.id, p.name
+9.))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+SELECT h.rank, p.name
 FROM patrons AS p
 JOIN holds AS h
 ON p.id = h.patron_id
@@ -185,20 +185,21 @@ ON h.isbn = b.isbn
 WHERE b.title = 'Advanced Potion-Making'
 ORDER BY p.id;
 
-2	"Terry Boot"
-5	"Cedric Diggory"
+1	"Terry Boot"
+2	"Cedric Diggory"
 ------------------------
-SELECT b.title, t.checked_in_date
+SELECT b.title,
+CASE WHEN COUNT(t.checked_out_date)-COUNT(t.checked_in_date)= 1 
+          THEN 'Book is checked out.'
+     ELSE 'Book is not checked out.'
+END
 FROM books AS b
-NATURAL JOIN transactions AS t;
+NATURAL LEFT JOIN transactions AS t
+GROUP BY b.title;
 
-"Hogwarts: A History"	"2012-08-24"
-"Advanced Potion-Making"	"2012-08-24"
-"Fantastic Beasts and Where to Find Them"	"2012-08-24"
-"Fantastic Beasts and Where to Find Them"	"2018-08-20"
-"Advanced Potion-Making"	null
-"Fantastic Beasts and Where to Find Them"	"2018-08-23"
-"Fantastic Beasts and Where to Find Them"	null
+"Advanced Potion-Making"	"Book is checked out."
+"Fantastic Beasts and Where to Find Them"	"Book is checked out."
+"Hogwarts: A History"	"Book is not checked out."
 ------------------------
 SELECT b.title, AVG(DATE_PART('day', checked_in_date) - DATE_PART('day',checked_out_date)) AS avg_checkout_time
 FROM transactions AS t
@@ -209,27 +210,26 @@ GROUP BY b.title;
 "Fantastic Beasts and Where to Find Them"	"2"
 "Hogwarts: A History"	"1"
 ------------------------
-SELECT b.title, t.checked_out_date
+SELECT b.title, MAX(t.checked_out_date) AS last_check_out
 FROM transactions AS t
 NATURAL JOIN books AS b 
-WHERE (DATE_PART('year',CURRENT_DATE) - DATE_PART('year',checked_out_date)) >= 5
-ORDER BY checked_out_date;
+GROUP BY b.title
+HAVING (DATE_PART('year',CURRENT_DATE) - DATE_PART('year',MAX(t.checked_out_date))) >= 5;
 
 "Hogwarts: A History"	"2012-08-23"
-"Advanced Potion-Making"	"2012-08-23"
-"Fantastic Beasts and Where to Find Them"	"2012-08-23"
 ------------------------
-SELECT p.name, b.title, t.checked_in_date 
+SELECT p.name,
+CASE WHEN t.checked_in_date IS NULL THEN b.title
+END
 FROM patrons AS p
-JOIN transactions AS t
-ON p.id = t.patron_id 
-JOIN books AS b 
-ON t.isbn = b.isbn;
+LEFT JOIN transactions AS t
+ON p.id = t.patron_id
+NATURAL JOIN books AS b;
 
-"Hermione Granger"	"Hogwarts: A History"	"2012-08-24"
-"Cho Chang"	"Advanced Potion-Making"	"2012-08-24"
-"Terry Boot"	"Fantastic Beasts and Where to Find Them"	"2012-08-24"
-"Padma Patil"	"Fantastic Beasts and Where to Find Them"	"2018-08-20"
-"Terry Boot"	"Advanced Potion-Making"	null
-"Hermione Granger"	"Fantastic Beasts and Where to Find Them"	"2018-08-23"
-"Cedric Diggory"	"Fantastic Beasts and Where to Find Them"	null
+"Hermione Granger"	
+"Cho Chang"	
+"Terry Boot"	
+"Padma Patil"	
+"Terry Boot"	"Advanced Potion-Making"
+"Hermione Granger"	
+"Cedric Diggory"	"Fantastic Beasts and Where to Find Them"
