@@ -1,0 +1,69 @@
+1.)
+Normalization is making sure a table is in its most concise form with no repeated data and breaking the table down into
+multiple tables when necessary. A poilce station's criminal records would be appropriate. Fast joins allow for searches of 
+related criminal info such as all crimes committed by this gang of people. Data needs to be as reliable as possible.
+
+2.)
+1NF requires a column to only have one value. Rather than having a Crimes column where'Johnny' has committed 'Arson','Theft'
+it would make a separate row for Johnny, Arson and Johnny, Theft. 
+
+2NF requires the db to not have partial dependencies. Let's say Person and Crime are PKs in one table and the table also contains
+Minimum Sentence for a type of crime. Minimum Sentence depends on the Crime, but not on the person.
+
+3NF requires the db not to have transitive dependencies. Let's say only Criminal is a PK in a table along with Arresting Officer
+and Officer Rank. Arresting Officer is dependent on Criminal, which qualifies for 3NF. Officer Rank is only dependent on
+Arresting Officer which isn't a PK therefore it violates 3NF.
+
+3.)
+CREATE TABLE student_records (     ****** Only kept student_records since it was in the original. Have no reason to believe 
+  "id"       		INTEGER,                  student_record.id isn't important for whoever needs the db. Otherwise I would
+  "student_id"      INTEGER,              remove it completely because it isn't really necessary as students.id is sufficiently
+                                          unique enough for all the information to be based off of.
+CREATE TABLE students (
+  "id"				INTEGER,
+  "name"			VARCHAR(9),
+  "email    		VARCHAR(24)
+  );
+CREATE TABLE professor (
+  "id"    			INTEGER,
+  "name"  			VARCHAR(9),
+  "subject"         VARCHAR(11),
+  );
+CREATE TABLE grades (
+  "student_id"		INTEGER
+  "professor_id"	INTEGER
+  "grades"    		VARCHAR(1)
+);
+
+4.)
+The downside to normalizing that table is that finding one grade for one student requres joining 4 tables and searching all
+of them for detailsto match to the student. It's very intensive for looking up data. The upside of normalization in this is
+it's very easy to modify data. Should the teacher change for a subject, then it only needs to be modified one time
+rather than for every for every student.
+
+5.) 
+Condensing students and student_id would be a simple form of denormalization. It violated 2NF originally because name and id 
+were dependent on student_id, but not on record_id. Combining the two would only be moderately ineffecient while reducing the
+number of tables by 1. Could continue the process with the same mindset and collapse professor into the grades table. professor
+info would be dependent on only proffesor and not student_id, but it would remove another table.
+
+CREATE TABLE student_records (
+  "id" INTEGER,
+  "student_id" INTEGER,
+  "student_name" VARCHAR(9),
+  "student_email" VARCHAR(24)
+);
+CREATE TABLE grades (
+  "student_id"		INTEGER,
+  "professor_id"	INTEGER,
+  "professor_name"  			VARCHAR(9),
+  "subject"         VARCHAR(11),
+  "grades"    		VARCHAR(1)
+);
+
+6.)
+Normalization is excellent for having cleanly defined data that can be easily updated, but involves complicated queries
+to recombine all the tables to get the info.
+Denormalization drops the complexity of the db a little to increase the efficiency of queries. Less tables means less
+complicated queries and faster run times.
+It seems a balance of the two can create a strong db where circumstances dictate how far it leans one way or the other.

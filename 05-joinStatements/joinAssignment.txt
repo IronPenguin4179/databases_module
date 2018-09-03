@@ -25,15 +25,18 @@ FROM professor AS p
 JOIN compensation AS c 
 ON p.id = c.professor_id;
 
-6.) A natural join is used when the join connection is implicit between the two tables. An example might be a list of your favorite
+6.) 
+A natural join is used when the join connection is implicit between the two tables. An example might be a list of your favorite
     channels and a schedule of television channels. The two could naturally join on the channel number as they were along the same 
     format
 
+<<<<<<< HEAD
 7.)))))))))))))))))))))))))))))))))))))))))))))))))
 
 SELECT e.name, s.date
 FROM employees AS e
 LEFT JOIN scheduled_shifts AS ss
+
 ON e.id = ss.employee_id
 FULL JOIN shifts AS s
 ON s.id = ss.shift_id;
@@ -61,6 +64,7 @@ ON s.id = ss.shift_id;
 "Cho Chang"	"1998-03-13"
 "Dean Thomas"	"1998-03-09"
 "Dean Thomas"	"1998-03-10"
+<<<<<<< HEAD
 "Neville Longbottom"	null
 "Cedric Diggory"	null
 null	"1998-03-13"
@@ -68,7 +72,14 @@ null	"1998-03-12"
 
 
 8.)
+=======
+"Neville Longbottom" null	
+"Cedric Diggory" null	
+null	"1998-03-13"
+null	"1998-03-12"
+>>>>>>> checkpoint-07-dataNormalization
 
+8.))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 SELECT v.first_name, d.name
 FROM volunteers AS v
 LEFT OUTER JOIN dogs AS d
@@ -107,16 +118,23 @@ WHERE d.name IS NULL OR a.first_name IS NULL;
 	    "Marley"
 	    "Marmaduke"
 ------------------------
-SELECT a.first_name AS adopter_name, d.name AS dog_name
+SELECT a.first_name, d.name
 FROM adopters AS a
 LEFT JOIN dog_adoptions AS da
 ON a.id = da.adopter_id
 CROSS JOIN dogs AS d
+<<<<<<< HEAD
 WHERE d.in_foster IS NULL AND da.adopter_id IS NULL;
 
 ***(Changed Rosco's in_foster date from NULL to his actual adoption date. It seemed like a critical typo 
 necessary for solving this query. If it is meant to be solved without this adjustment then I need a clue
 because I'm stumped.)
+=======
+WHERE da.adopter_id IS NULL AND d.in_foster IS NULL;
+
+(Changed Rosco's in_foster date from NULL to his actual adoption date. It seemed like a necessary missing piece of info.
+If this wasn't a typo and there is another way to do it, I would love advice because I'm stumped otherwise.)
+>>>>>>> checkpoint-07-dataNormalization
 
 "Hermione"	"Boujee"
 "Hermione"	"Munchkin"
@@ -156,6 +174,7 @@ LEFT JOIN dog_adoptions AS da
 ON v.id = da.adopter_id
 FULL JOIN dogs AS d
 ON da.dog_id = d.id
+<<<<<<< HEAD
 WHERE v.available_to_foster = true OR d.in_foster IS NULL;
 
 "Remus"	"Rosco"
@@ -163,6 +182,14 @@ WHERE v.available_to_foster = true OR d.in_foster IS NULL;
 "Marjorie" null
 "Sirius" null	
 "Albus"	null
+=======
+WHERE v.available_to_foster = 'true' OR v.available_to_foster IS NULL;
+
+"Remus"	"Rosco"
+"Rubeus" null	
+"Marjorie" null	
+"Sirius" null	
+>>>>>>> checkpoint-07-dataNormalization
 null	"Munchkin"
 null	"Boujee"
 null	"Lassie"
@@ -179,7 +206,11 @@ WHERE d.name = 'Rosco';
 
 "Argus"
 
+<<<<<<< HEAD
 9.))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+=======
+9.)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+>>>>>>> checkpoint-07-dataNormalization
 SELECT h.rank, p.name
 FROM patrons AS p
 JOIN holds AS h
