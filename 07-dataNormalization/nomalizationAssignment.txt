@@ -1,6 +1,7 @@
-1.)Normalization makes the data non-repetitive and as directly linked as possible, but is slow when 
-data needs to be read and processed frequently. A phone directory is a good example. Data isn't used for
-calculations heavily and it can be updated easily.
+1.)Normalization is making sure a table is in its most concise form with no repeated data and breaking the table down into
+multiple tables when necessary. A poilce station's criminal records would be appropriate. Fast joins allow for searches of 
+related criminal info such as all crimes committed by this gang of people. Data needs to be as reliable as possible.
+
 2.)
 3.)
 4.)
