@@ -1,0 +1,8 @@
+1.)Normalization makes the data non-repetitive and as directly linked as possible, but is slow when 
+data needs to be read and processed frequently. A phone directory is a good example. Data isn't used for
+calculations heavily and it can be updated easily.
+2.)
+3.)
+4.)
+5.)
+6.)
