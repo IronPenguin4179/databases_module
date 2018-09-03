@@ -1,0 +1,176 @@
+1.)
+CREATE TABLE rooms (
+  room_number integer,
+  floor_number integer,
+  nightly_price float(2)
+);
+INSERT INTO rooms VALUES
+(222,2,20.00),
+(223,2,20.00),
+(999,9,30.00),
+(111,1,1000000.00);
+
+CREATE TABLE guests (
+  guest_id integer,
+  first_name text,
+  last_name text,
+  phone_number text,
+  email text,
+  address text);
+INSERT INTO guests VALUES
+(3678,'God','Zilla','432-9870','gojira@monster.com','Tokyo, Japan'),
+(2222,'Wonder','Twins','222-2222','eagleandbucket@yahoo.com','JLA Base, Space'),
+(9999,'Son','Goku','999-9999','omnomnom@capsulecorps.com','Goku House, Mt. Paozu'),
+(7632,'Gordon','Freeman','763-2111','onefreeman@blackmesa.com','Black Mesa, NM');
+
+CREATE TABLE bookings(
+  guest_id integer,
+  room_number integer,
+  check_in_date date,
+  check_out_date date
+);
+INSERT INTO bookings VALUES 
+(2222,222, '08/23/1990','08/24/1990'),
+(2222,223, '08/23/1990','08/24/1990'),
+(9999,999, '05/13/2000','05/16/2000'),
+(9999,999, '06/13/2000','06/16/2000'),
+(9999,999, '07/13/2000','07/16/2000'),
+(2222,111, '10/01/2002','10/02/2002'),
+(9999,111, '11/03/2004','11/04/2004'),
+(7632,111, '02/05/2006','02/06/2006');
+-------------
+SELECT *
+FROM guests AS g
+LFET JOIN bookings AS b
+ON b.guest_id = g.guest_id
+WHERE b.guest_id IS NULL;
+
+3678	"God"	"Zilla"	"432-9870"	"gojira@monster.com"	"Tokyo, Japan" null null null null				
+-------------
+SELECT g.first_name, g.last_name, b.check_in_date, COUNT(b) AS multiple_rooms
+FROM guests AS g
+JOIN bookings AS b
+ON b.guest_id = g.guest_id
+JOIN rooms AS r
+ON b.room_number = r.room_number
+GROUP BY b.check_in_date, g.first_name, g.last_name
+HAVING COUNT(b) = 2;
+
+"Wonder"	"Twins"	"1990-08-23"	"2"
+---------------
+SELECT g.first_name, g.last_name, COUNT(b) AS stays_in_a_room
+FROM guests AS g
+JOIN bookings AS b
+ON b.guest_id = g.guest_id
+JOIN rooms AS r
+ON b.room_number = r.room_number
+GROUP BY r.room_number, g.first_name, g.last_name
+HAVING COUNT(b) > 1;
+
+"Son"	"Goku"	"3"
+----------------
+SELECT r.room_number, COUNT(DISTINCT b.guest_id) AS guests_stayed_in_room
+FROM guests AS g
+JOIN bookings AS b
+ON b.guest_id = g.guest_id
+JOIN rooms AS r
+ON b.room_number = r.room_number
+GROUP BY r.room_number;
+
+111	"3"
+222	"1"
+223	"1"
+999	"1"
+2.)
+We need to model Students and Classes. Grades also need to be stored.
+
+For Students you can have a large list of info including name, phone number, address, parents, etc.
+For the example student_id as an integer and name in text.
+For classes again, many info fields could be used but for this example class id integer and subject text will be fine.
+Grades will need to tie to students and classes so class id int, student id int, and the grade text will work.
+
+Student_id will be a PK that connects to FK student_id on the grades table.
+Class_id will be a PK that connects to FK class_id on the grades table. 
+The student to grades relationship is 1 student to many grades.
+The class to grades relationship is 1 class to many grades.
+
+PNG of the relationship map included in this folder.
+3.)
+CREATE TABLE students (
+ student_id integer,
+ first_name text,
+ last_name text,
+);
+ 
+INSERT INTO students VALUES
+(1111,'Louis', 'Black'),
+(2222,'Sarah', 'Silverman'),
+(3333,'Bob', 'Saget'),
+(4444,'Jeff', 'Dunham');
+
+CREATE TABLE classes (
+ class_id integer,
+ subject text
+);
+
+INSERT INTO classes VALUES
+(0123,'English'),
+(0456,'Math'),
+(0789,'Science');
+
+CREATE TABLE grades (
+ class_id integer,
+ student_id integer,
+ class_grade text
+);
+
+INSERT INTO grades VALUES
+(0123,1111,'A'),
+(0123,2222,'B'),
+(0456,3333,'C'),
+(0456,4444,'B'),
+(0789,1111,'A'),
+(0789,2222,'A'),
+(0789,3333,'F'),
+(0789,4444,'C');
+---------
+SELECT s.first_name, s.last_name, c.subject
+FROM classes AS c
+NATURAL JOIN grades AS g
+NATURAL JOIN students AS s
+WHERE c.subject = 'Science';
+
+"Louis"	"Black"	"Science"
+"Sarah"	"Silverman"	"Science"
+"Bob"	"Saget"	"Science"
+"Jeff"	"Dunham"	"Science"
+---------
+SELECT g.class_grade, COUNT(g.class_grade), c.subject
+FROM classes AS c
+NATURAL JOIN grades AS g
+WHERE c.subject = 'Science'
+GROUP BY g.class_grade, c.subject;
+
+"A"	"2"	"Science"
+"C"	"1"	"Science"
+"F"	"1"	"Science"
+---------
+SELECT c.subject, COUNT(g.student_id) AS students_in_class
+FROM classes AS c
+NATURAL JOIN grades AS g
+NATURAL JOIN students AS s
+GROUP BY c.subject;
+
+"Math"	"2"
+"English"	"2"
+"Science"	"4"
+---------
+SELECT c.subject, COUNT(g.student_id) AS students_in_class
+FROM classes AS c
+NATURAL JOIN grades AS g
+NATURAL JOIN students AS s
+GROUP BY c.subject
+ORDER BY students_in_class DESC
+LIMIT 1;
+
+"Science"	"4"
