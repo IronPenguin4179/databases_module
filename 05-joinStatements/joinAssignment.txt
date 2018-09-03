@@ -29,13 +29,13 @@ ON p.id = c.professor_id;
     channels and a schedule of television channels. The two could naturally join on the channel number as they were along the same 
     format
 
-7.)
+7.)))))))))))))))))))))))))))))))))))))))))))))))))
 
 SELECT e.name, s.date
 FROM employees AS e
-JOIN scheduled_shifts AS ss
+LEFT JOIN scheduled_shifts AS ss
 ON e.id = ss.employee_id
-RIGHT OUTER JOIN shifts AS s
+FULL JOIN shifts AS s
 ON s.id = ss.shift_id;
 
 "Hermione Granger"	"1998-03-09"
@@ -61,8 +61,10 @@ ON s.id = ss.shift_id;
 "Cho Chang"	"1998-03-13"
 "Dean Thomas"	"1998-03-09"
 "Dean Thomas"	"1998-03-10"
-null        	"1998-03-13"
-null	        "1998-03-12"
+"Neville Longbottom"	null
+"Cedric Diggory"	null
+null	"1998-03-13"
+null	"1998-03-12"
 
 
 8.)
@@ -107,28 +109,25 @@ WHERE d.name IS NULL OR a.first_name IS NULL;
 ------------------------
 SELECT a.first_name AS adopter_name, d.name AS dog_name
 FROM adopters AS a
-LEFT OUTER JOIN dog_adoptions AS da
+LEFT JOIN dog_adoptions AS da
 ON a.id = da.adopter_id
-CROSS JOIN dogs AS d;
+CROSS JOIN dogs AS d
+WHERE d.in_foster IS NULL AND da.adopter_id IS NULL;
 
-"Argus"	"Boujee"
-"Argus"	"Munchkin"
-"Argus"	"Marley"
-"Argus"	"Lassie"
-"Argus"	"Marmaduke"
-"Argus"	"Rosco"
-"Arabella"	"Boujee"
-"Arabella"	"Munchkin"
-"Arabella"	"Marley"
-"Arabella"	"Lassie"
-"Arabella"	"Marmaduke"
-"Arabella"	"Rosco"
+***(Changed Rosco's in_foster date from NULL to his actual adoption date. It seemed like a critical typo 
+necessary for solving this query. If it is meant to be solved without this adjustment then I need a clue
+because I'm stumped.)
+
 "Hermione"	"Boujee"
 "Hermione"	"Munchkin"
 "Hermione"	"Marley"
 "Hermione"	"Lassie"
 "Hermione"	"Marmaduke"
-"Hermione"	"Rosco"
+"Arabella"	"Boujee"
+"Arabella"	"Munchkin"
+"Arabella"	"Marley"
+"Arabella"	"Lassie"
+"Arabella"	"Marmaduke"
 ------------------------
 SELECT c.name, ca.cat_id
 FROM cats AS c
@@ -153,12 +152,17 @@ WHERE da.dog_id IS NULL;
 ------------------------
 SELECT v.first_name, d.name
 FROM volunteers AS v
-LEFT OUTER JOIN dog_adoptions as da
+LEFT JOIN dog_adoptions AS da
 ON v.id = da.adopter_id
-RIGHT OUTER JOIN dogs as d
-ON da.dog_id = d.id;
+FULL JOIN dogs AS d
+ON da.dog_id = d.id
+WHERE v.available_to_foster = true OR d.in_foster IS NULL;
 
 "Remus"	"Rosco"
+"Rubeus" null
+"Marjorie" null
+"Sirius" null	
+"Albus"	null
 null	"Munchkin"
 null	"Boujee"
 null	"Lassie"
