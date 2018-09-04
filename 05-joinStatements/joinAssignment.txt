@@ -64,15 +64,6 @@ ON s.id = ss.shift_id;
 "Cho Chang"	"1998-03-13"
 "Dean Thomas"	"1998-03-09"
 "Dean Thomas"	"1998-03-10"
-<<<<<<< HEAD
-"Neville Longbottom"	null
-"Cedric Diggory"	null
-null	"1998-03-13"
-null	"1998-03-12"
-
-
-8.)
-=======
 "Neville Longbottom" null	
 "Cedric Diggory" null	
 null	"1998-03-13"
@@ -123,18 +114,11 @@ FROM adopters AS a
 LEFT JOIN dog_adoptions AS da
 ON a.id = da.adopter_id
 CROSS JOIN dogs AS d
-<<<<<<< HEAD
 WHERE d.in_foster IS NULL AND da.adopter_id IS NULL;
 
 ***(Changed Rosco's in_foster date from NULL to his actual adoption date. It seemed like a critical typo 
 necessary for solving this query. If it is meant to be solved without this adjustment then I need a clue
 because I'm stumped.)
-=======
-WHERE da.adopter_id IS NULL AND d.in_foster IS NULL;
-
-(Changed Rosco's in_foster date from NULL to his actual adoption date. It seemed like a necessary missing piece of info.
-If this wasn't a typo and there is another way to do it, I would love advice because I'm stumped otherwise.)
->>>>>>> checkpoint-07-dataNormalization
 
 "Hermione"	"Boujee"
 "Hermione"	"Munchkin"
