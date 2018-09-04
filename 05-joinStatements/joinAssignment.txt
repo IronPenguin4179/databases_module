@@ -158,7 +158,6 @@ LEFT JOIN dog_adoptions AS da
 ON v.id = da.adopter_id
 FULL JOIN dogs AS d
 ON da.dog_id = d.id
-<<<<<<< HEAD
 WHERE v.available_to_foster = true OR d.in_foster IS NULL;
 
 "Remus"	"Rosco"
@@ -166,14 +165,6 @@ WHERE v.available_to_foster = true OR d.in_foster IS NULL;
 "Marjorie" null
 "Sirius" null	
 "Albus"	null
-=======
-WHERE v.available_to_foster = 'true' OR v.available_to_foster IS NULL;
-
-"Remus"	"Rosco"
-"Rubeus" null	
-"Marjorie" null	
-"Sirius" null	
->>>>>>> checkpoint-07-dataNormalization
 null	"Munchkin"
 null	"Boujee"
 null	"Lassie"
@@ -190,11 +181,7 @@ WHERE d.name = 'Rosco';
 
 "Argus"
 
-<<<<<<< HEAD
 9.))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
-=======
-9.)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
->>>>>>> checkpoint-07-dataNormalization
 SELECT h.rank, p.name
 FROM patrons AS p
 JOIN holds AS h
