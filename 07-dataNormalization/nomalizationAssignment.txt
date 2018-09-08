@@ -17,8 +17,8 @@ Arresting Officer which isn't a PK therefore it violates 3NF.
 3.)
 CREATE TABLE student_records (     ****** Only kept student_records since it was in the original. Have no reason to believe 
   "id"       		INTEGER,                  student_record.id isn't important for whoever needs the db. Otherwise I would
-  "student_id"      INTEGER,              remove it completely because it isn't really necessary as students.id is sufficiently
-                                          unique enough for all the information to be based off of.
+  "student_id"      INTEGER               remove it completely because it isn't really necessary as students.id is sufficiently
+  );                                      unique enough for all the information to be based off of.
 CREATE TABLE students (
   "id"				INTEGER,
   "name"			VARCHAR(9),
@@ -26,14 +26,17 @@ CREATE TABLE students (
   );
 CREATE TABLE professor (
   "id"    			INTEGER,
-  "name"  			VARCHAR(9),
-  "subject"         VARCHAR(11),
+  "name"  			VARCHAR(9)
+  );
+CREATE TABLE subject (
+  "prodessor_id"    INTEGER,
+  "subject"     VARCHAR(11)
   );
 CREATE TABLE grades (
   "student_id"		INTEGER
   "professor_id"	INTEGER
   "grades"    		VARCHAR(1)
-);
+  );
 
 4.)
 The downside to normalizing that table is that finding one grade for one student requres joining 4 tables and searching all
@@ -44,8 +47,8 @@ rather than for every for every student.
 5.) 
 Condensing students and student_id would be a simple form of denormalization. It violated 2NF originally because name and id 
 were dependent on student_id, but not on record_id. Combining the two would only be moderately ineffecient while reducing the
-number of tables by 1. Could continue the process with the same mindset and collapse professor into the grades table. professor
-info would be dependent on only proffesor and not student_id, but it would remove another table.
+number of tables by 1. Could continue the process with the same mindset and collapse subjet into professor and those into the 
+grades table. professor info would be dependent on only proffesor and not student_id, but it would remove another table.
 
 CREATE TABLE student_records (
   "id" INTEGER,
