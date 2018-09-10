@@ -30,7 +30,6 @@ A natural join is used when the join connection is implicit between the two tabl
     channels and a schedule of television channels. The two could naturally join on the channel number as they were along the same 
     format
 
-<<<<<<< HEAD
 7.)))))))))))))))))))))))))))))))))))))))))))))))))
 
 SELECT e.name, s.date
@@ -68,7 +67,6 @@ ON s.id = ss.shift_id;
 "Cedric Diggory" null	
 null	"1998-03-13"
 null	"1998-03-12"
->>>>>>> checkpoint-07-dataNormalization
 
 8.))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 SELECT v.first_name, d.name
