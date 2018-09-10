@@ -29,12 +29,13 @@ CREATE TABLE professor (
   "name"  			VARCHAR(9)
   );
 CREATE TABLE subject (
-  "prodessor_id"    INTEGER,
+  "id"    INTEGER,
   "subject"     VARCHAR(11)
   );
 CREATE TABLE grades (
-  "student_id"		INTEGER
-  "professor_id"	INTEGER
+  "student_id"		INTEGER,
+  "subject_id"    INTEGER,
+  "professor_id"	INTEGER,
   "grades"    		VARCHAR(1)
   );
 
