@@ -1,0 +1,225 @@
+1.)
+The term is pretty self explanatory, a query within a query. It's used to limit or modify the data you want to search from.
+
+2.)
+You can use subqueries in SELECT, FROM, and WHERE.
+
+3.)
+When you need to query results from another query.
+
+4.)
+Allows you to compare rows from a query to a defined row.
+
+5.)
+The query will return a NULL
+
+6.)
+IN (NOT IN) returns true if at least one matching row is found. NOT is the reverse.
+EXISTS (NOT EXISTS) returns true if one or more rows are returned. ^^
+ANY or SOME returns true if any criteria match the expression.
+ALL returns true if all rows match the expression.
+
+7.)))))))))))))))))))))))))))))))))))))))))))))))))))
+SELECT v.first_name, d.name
+FROM 
+ (SELECT dogs.id, dogs.name
+  FROM dogs) AS d
+RIGHT OUTER JOIN volunteers AS v
+ON d.id = v.foster_dog_id;
+
+first_name 	name
+Rubeus 	Munchkin
+Marjorie 	Marmaduke
+Sirius 	null
+Remus 	null
+Albus 	null
+-----------------------------
+SELECT a.first_name, c.name, ca.date
+FROM
+  (SELECT *
+  FROM cat_adoptions
+  WHERE cat_adoptions.date > (CURRENT_DATE - INTERVAL '1 MONTH')) AS ca
+JOIN cats AS c 
+ON c.id = ca.cat_id
+JOIN adopters AS a
+ON a.id = ca.adopter_id;
+
+first_name 	name 	date
+Arabella 	Mushi 	2018-08-27T00:00:00.000Z
+Argus 	Victoire 	2018-09-01T00:00:00.000Z
+-----------------------------
+SELECT a.first_name, d.name
+FROM
+  (SELECT first_name
+  FROM adopters
+  WHERE id NOT IN
+    (SELECT adopter_id
+     FROM dog_adoptions)) AS a
+CROSS JOIN 
+  (SELECT name
+   FROM dogs
+   WHERE id NOT IN
+    (SELECT dog_id
+     FROM dog_adoptions)) AS d;
+  
+first_name 	name
+Hermione 	Boujee
+Arabella 	Boujee
+Hermione 	Munchkin
+Arabella 	Munchkin
+Hermione 	Marley
+Arabella 	Marley
+Hermione 	Lassie
+Arabella 	Lassie
+Hermione 	Marmaduke
+Arabella 	Marmaduke
+---------------------------
+SELECT d.name AS dog_name
+FROM
+	(SELECT name
+     FROM dogs
+     WHERE id NOT IN
+      (SELECT dog_id
+       FROM dog_adoptions)) AS d;
+SELECT c.name AS cat_name
+FROM 
+    (SELECT name
+     FROM cats
+     WHERE id NOT IN
+      (SELECT cat_id
+       FROM cat_adoptions)) AS c;
+
+dog_name
+Boujee
+Munchkin
+Marley
+Lassie
+Marmaduke
+
+cat_name
+Seashell
+Nala
+---------------------------
+SELECT a.first_name, dog.name
+FROM
+  (SELECT * 
+   FROM dogs AS d
+   JOIN dog_adoptions AS da
+   ON d.id = da.dog_id) AS dog
+JOIN dog_adoptions AS da
+ON dog.id = da.dog_id
+JOIN adopters AS a
+ON a.id = da.adopter_id;
+
+first_name 	name
+Argus 	Rosco
+
+8.))))))))))))))))))))))))))))))))))))))))))))))))
+SELECT p.name
+FROM patrons AS p
+JOIN
+  (SELECT patron_id
+   FROM holds AS h
+   NATURAL JOIN books AS b
+   WHERE b.title = 'Advanced Potion-Making') AS h
+ON p.id=h.patron_id;  
+
+name
+Cedric Diggory
+Terry Boot
+---------------------------------------
+SELECT title
+FROM books
+WHERE isbn IN
+ (SELECT isbn
+  FROM transactions
+  WHERE checked_in_date IS NULL);
+
+title
+Fantastic Beasts and Where to Find Them
+Advanced Potion-Making
+---------------------------------------   
+SELECT b.title, AVG(DATE_PART('day', checked_in_date) - DATE_PART('day',checked_out_date)) AS avg_checkout_time 
+FROM books AS b
+NATURAL JOIN transactions AS t
+WHERE isbn = ANY
+  (SELECT isbn
+   FROM transactions
+   WHERE checked_out_date > (CURRENT_DATE - INTERVAL '1 MONTH')
+   AND checked_in_date IS NOT NULL)
+GROUP BY b.title;
+
+title 	avg_checkout_time
+Fantastic Beasts and Where to Find Them 	2
+----------------------------------------
+SELECT b.title
+FROM
+  (SELECT isbn, MAX(checked_out_date)
+   FROM transactions
+   GROUP BY isbn
+   HAVING (DATE_PART('year',CURRENT_DATE) -   DATE_PART('year',MAX(checked_out_date))) >= 5) AS t
+NATURAL JOIN books AS b;
+
+title
+Hogwarts: A History
+----------------------------------------
+SELECT p.name, b.title
+FROM
+   (SELECT transactions.patron_id, books.title
+    FROM books
+    NATURAL JOIN transactions
+    WHERE checked_in_date IS NULL) AS b 
+RIGHT OUTER JOIN patrons AS p
+ON p.id = b.patron_id;
+
+name 	title
+Hermione Granger 	null
+Terry Boot 	Advanced Potion-Making
+Padma Patil 	null
+Cho Chang 	null
+Cedric Diggory 	Fantastic Beasts and Where to Find Them
+
+9.)))))))))))))))))))))))))))))))))))))))))))))))))
+SELECT a.model, t.total_revenue 
+FROM
+  (SELECT total_revenue, flight_number
+   FROM transactions
+   WHERE seats_sold > 250
+   AND date > CURRENT_DATE - INTERVAL '1 MONTH') AS t
+NATURAL JOIN flights AS f
+JOIN airplanes AS a
+ON a.model = f.airplane_model
+ORDER BY t.total_revenue DESC;
+
+model 	total_revenue
+Airbus A380 	342981.5400
+Boeing 777 	288909.1900
+Boeing 787 	224382.5300
+Airbus A330 	155928.9800
+----------------------------------------
+SELECT f.flight_number, a.model, f.origin, f.destination
+FROM flights AS f
+JOIN airplanes AS a
+ON a.model = f.airplane_model
+WHERE f.flight_number = ANY
+     (SELECT flight_number
+     FROM transactions
+     WHERE (seats_sold/a.seat_capacity) >= 0.9);
+
+flight_number 	model 	      origin 	destination
+137 	          Airbus A330 	LHR 	  JFK     
+----------------------------------------
+SELECT t.flight_number, SUM(t.total_revenue) AS revenue
+FROM transactions AS t
+GROUP BY t.flight_number
+HAVING flight_number = ANY
+	(SELECT flight_number
+     FROM flights
+     WHERE origin = 'SIN' OR destination = 'SIN'); 
+
+flight_number 	revenue
+7352 	250394.7000
+7403 	131992.1200
+
+10.)))))))))))))))))))))))))))))))))))))))))))))
+It seems to me like subqueries make queries much easier to read but aren't necessarily easier to write.
