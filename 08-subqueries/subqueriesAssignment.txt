@@ -105,7 +105,8 @@ FROM
   (SELECT * 
    FROM dogs AS d
    JOIN dog_adoptions AS da
-   ON d.id = da.dog_id) AS dog
+   ON d.id = da.dog_id
+   WHERE d.name = 'Rosco') AS dog
 JOIN dog_adoptions AS da
 ON dog.id = da.dog_id
 JOIN adopters AS a
@@ -128,16 +129,19 @@ name
 Cedric Diggory
 Terry Boot
 ---------------------------------------
-SELECT title
-FROM books
-WHERE isbn IN
- (SELECT isbn
-  FROM transactions
-  WHERE checked_in_date IS NULL);
+SELECT b.title, (t.out - t.in = 1) AS is_checked_out
+FROM
+    (SELECT isbn, 
+        COUNT(checked_in_date) AS in, 
+        COUNT(checked_out_date) AS out
+     FROM transactions
+     GROUP BY isbn) AS t
+NATURAL JOIN books AS b;
 
-title
-Fantastic Beasts and Where to Find Them
-Advanced Potion-Making
+title 	is_checked_out
+Hogwarts: A History 	false
+Advanced Potion-Making 	true
+Fantastic Beasts and Where to Find Them 	true
 ---------------------------------------   
 SELECT b.title, AVG(DATE_PART('day', checked_in_date) - DATE_PART('day',checked_out_date)) AS avg_checkout_time 
 FROM books AS b
